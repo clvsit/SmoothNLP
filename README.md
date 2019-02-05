@@ -59,6 +59,7 @@ lines2labeled_lines(sample_liens,"train_raw.txt")  ## 利用现有模型先标�
 
 ##### BinarizedTree 数据转换
 ```python
+from smoothnlp.treebanks import binarize_labeled_data
 binarize_labeled_data("train_raw.txt","train_ready.txt")
 ```
 BinarizedTree 数据格式如下：
