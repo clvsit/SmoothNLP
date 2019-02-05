@@ -6,28 +6,31 @@
 |E-mail|ruinan.zhang@icloud.com|
 ****
 
-## 目录
+<!-- TOC -->
+
 - [SmoothNLP](#smoothnlp)
-  * [安装 Installation](#---installation)
-      - [Python](#python)
-      - [Java Server](#java-server)
-  * [情感 Sentiment Analysis](#---sentiment-analysis)
-    + [情感标注数据生成](#--------)
-        * [半监督打标数据生成](#---------)
-        * [BinarizedTree 数据转换](#binarizedtree-----)
-    + [RNTN 情感模型的训练](#rntn--------)
+    - [Installation](#installation)
+        - [Python](#python)
+        - [Java Server](#java-server)
+    - [情感模型 Sentiment Analysis](#情感模型-sentiment-analysis)
+        - [情感标注数据生成](#情感标注数据生成)
+            - [半监督打标数据生成](#半监督打标数据生成)
+            - [BinarizedTree 训练数据数据处理](#binarizedtree-训练数据数据处理)
+        - [RNTN Model 模型训练](#rntn-model-模型训练)
+
+<!-- /TOC -->
     
 -----------
 
-## 安装 Installation
-#### Python 
+## Installation
+### Python 
 ```shell
 pip3 install git+https://github.com/zhangruinan/SmoothNLP.git
 ```
 Please notice, the python package is only a convenient wrapper on CoreNLP's server in jre. 
 Therefore, for many functionalities, you may start the Java Server first. 
 
-#### Java Server
+### Java Server
 You may download the latest jar file from [here](https://github.com/zhangruinan/SmoothNLP/releases)
 . After download the archive file, unzip it and run it in jvm.
 
@@ -46,9 +49,9 @@ java -cp corenlp-chinese-smoothnlp-0.1-with-dependencies.jar com.smoothnlp.nlp.R
 ``` 
 ------------
 
-## 情感 Sentiment Analysis
+## 情感模型 Sentiment Analysis 
 ### 情感标注数据生成
-##### 半监督打标数据生成
+#### 半监督打标数据生成
 ```python
 from smoothnlp.treebanks import initNLP,lines2labeled_lines
 initNLP("http://127.0.0.1",port=9000) ## 启动一个CoreNLP的Server
@@ -57,7 +60,7 @@ lines2labeled_lines(sample_liens,"train_raw.txt")  ## 利用现有模型先标�
 ```
 输出文件地址可以参照[这里](https://github.com/zhangruinan/SmoothNLP/blob/master/smoothnlp/examples/sample_out.txt)
 
-##### BinarizedTree 数据转换
+#### BinarizedTree 训练数据数据处理
 ```python
 from smoothnlp.treebanks import binarize_labeled_data
 binarize_labeled_data("train_raw.txt","train_ready.txt")
@@ -92,7 +95,7 @@ BinarizedTree 数据格式如下：
 (2, (2, (2, '我'), (2, '心情')), (3, (2, '也'), (3, '不错')))
 ```
 
-### RNTN 情感模型的训练
+### RNTN Model 模型训练
 
 ```shell
 java -mx8g -cp corenlp-chinese-smoothnlp-0.1-with-dependencies.jar edu.stanford.nlp.sentiment.SentimentTraining -numHid 20 -trainPath train_ready.txt -train -model model.ser.gz
