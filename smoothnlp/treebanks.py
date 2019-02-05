@@ -9,12 +9,8 @@ def initNLP(host="127.0.0.1",port=9000,lang="zh"):
     global __nlp__
     __nlp__ = StanfordCoreNLP(host, port=port,lang=lang)
 
-def lines2labeled_records(lines:list):
-    '''
-
-    :param lines:
-    :return:
-    '''
+def lines2labeled_records(lines:list,
+                          default_sentiment_score=2):
     def process_stree(stree):
         stree = stree.replace('\n','')
         stree = re.sub('\|prob=\d.\d+','',stree)
@@ -29,6 +25,9 @@ def lines2labeled_records(lines:list):
         stree = process_stree(stree)
         t = pytreebank.create_tree_from_string(stree)
         lines_transfered = t.to_labeled_lines()
+        for i in range(len(lines_transfered)):
+            if lines_transfered[i][0] is None:
+                lines_transfered[i] = (default_sentiment_score,lines_transfered[i][1])
         train.append(lines_transfered)
     return train
 
@@ -68,26 +67,43 @@ def binarize_labeled_lines(lines):
     right_lines = lines[right_child_index:]
     return (parent_line[0], binarize_labeled_lines(left_lines), binarize_labeled_lines(right_lines))
 
-tupleTree2strTree = lambda tree_tuple: repr(tree_tuple).replace(',','').replace("'",'')
 
-def lines2pytreebanks_json(lines):
-    labeled_lines = lines2labeled_lines(lines)
-    tuple_trees = [binarize_labeled_lines(l) for l in labeled_lines]
-    strees = [tupleTree2strTree(t) for t in tuple_trees]
-    pytbanks = [pytreebank.create_tree_from_string(st) for st in strees]
-    pytbanks_json = [t.to_json() for t in pytbanks]
-    return pytbanks_json
+tupleTree2strTree = lambda tree_tuple: repr(tree_tuple).replace(',','').replace("\'",'')
+
+def binarize_labeled_data(train_file_addr,output_file_addr):
+    with open(train_file_addr,'r') as f:
+        lines = f.readlines()
+    with open(output_file_addr,'w') as o:
+        l = []
+        for line in lines:
+            if line!="\n":
+                l.append(tuple(line.strip("\n").split(' ',1)));
+            if line =="\n":
+                bl = tupleTree2strTree(binarize_labeled_lines(l))
+                o.write(bl+"\n")
+                l = []
+
+# def lines2pytreebanks_json(lines):
+#     labeled_lines = lines2labeled_lines(lines)
+#     tuple_trees = [binarize_labeled_lines(l) for l in labeled_lines]
+#     strees = [tupleTree2strTree(t) for t in tuple_trees]
+#     pytbanks = [pytreebank.create_tree_from_string(st) for st in strees]
+#     pytbanks_json = [t.to_json() for t in pytbanks]
+#     return pytbanks_json
 
 
 if __name__=="__main__":
     print("hello, I am treebanks")
-    initNLP("http://192.168.9.179",port=9000)
+    initNLP("http://localhost",port=9000)
     lines = ['今天天气不错', "我心情也不错"]
     records = (lines2labeled_records(lines))
     print(records)
     line_chunks = lines2labeled_lines(lines)
     print(line_chunks[0])
-    lines2labeled_lines(lines,"examples/sample_out.txt")
+    lines2labeled_lines(lines,"examples/train_raw.txt")
 
-    # print(repr(binarize_labeled_lines(records[0])))
-    # print(lines2pytreebanks_json(["你好呀",'今天天气不错']))
+    train_raw = open("examples/train_raw.txt").readlines()
+    binarize_labeled_data("examples/train_raw.txt","examples/train_ready.txt")
+
+    print(train_raw)
+    print(repr(binarize_labeled_lines(records[0])))

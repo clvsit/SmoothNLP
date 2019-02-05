@@ -1,12 +1,33 @@
 # SmoothNLP
 
-### 安装
+## 安装 Installation
+#### Python 
 ```shell
 pip3 install git+https://github.com/zhangruinan/SmoothNLP.git
 ```
+Please notice, the python package is only a convenient wrapper on CoreNLP's server in jre. 
+Therefore, for many functionalities, you may start the Java Server first. 
+
+#### Java Server
+You may download the latest jar file from [here](https://github.com/zhangruinan/SmoothNLP/releases)
+. After download the archive file, unzip it and run it in jvm.
+
+Jar文件[下载地址](https://github.com/zhangruinan/SmoothNLP/releases),下载解压后可运行Server
+```shell
+unzip corenlp-chinese-smoothnlp-*.zip
+java -jar corenlp-chinese-smoothnlp-*-with-dependencies.jar 
+```
+Please notice, the corenlp server runs on port 9000 on default, you may change settings based on 
+[official document](https://stanfordnlp.github.io/CoreNLP/corenlp-server.html) by parsing in additional arguments.
+For instance:
+
+如需添加额外参数，可参考[官方文档](https://stanfordnlp.github.io/CoreNLP/corenlp-server.html),下面是一个额外参数调用的例子：
+```shell
+java -cp corenlp-chinese-smoothnlp-0.1-with-dependencies.jar com.smoothnlp.nlp.RESTServer -port 9001
+``` 
 
 ### 情感标注数据生成
-**基于CoreNLP RNTN模型 半监督打标数据生成**
+**基于CoreNLP RNTN模型 半监督打标数据 生成**
 ```python
 from smoothnlp.treebanks import initNLP,lines2labeled_lines
 initNLP("http://127.0.0.1",port=9000) ## 启动一个CoreNLP的Server
@@ -15,7 +36,7 @@ lines2labeled_lines(sample_liens,"labeled_data.txt")  ## 利用现有模型先�
 ```
 输出文件地址可以参照[这里](https://github.com/zhangruinan/SmoothNLP/blob/master/smoothnlp/examples/sample_out.txt)
 
-**模型训练数据 (Raw)**
+**模型训练数据 Training data format**
 ```angular2html
 3 今天 天气 不错
 3 今天
@@ -38,6 +59,7 @@ lines2labeled_lines(sample_liens,"labeled_data.txt")  ## 利用现有模型先�
 ```
 
 ### RNTN 情感模型的训练
+
 ```shell
-TODO
+java -mx8g -cp corenlp-chinese-smoothnlp-0.1-with-dependencies.jar edu.stanford.nlp.sentiment.SentimentTraining -numHid 20 -trainPath train_ready.txt -train -model model.ser.gz
 ```
