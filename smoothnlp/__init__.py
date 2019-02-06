@@ -1,9 +1,17 @@
 __name__ = "SmoothNLP"
 
-import smoothnlp.treebanks as treebanks
 global __nlp__
-from stanfordcorenlp import StanfordCoreNLP
+__nlp__=None
 
-def initNLP(host="127.0.0.1",port=9000,lang="zh"):
+def initNLP(host="http://127.0.0.1",port=9000,lang="zh"):
     global __nlp__
+    from stanfordcorenlp import StanfordCoreNLP
     __nlp__ = StanfordCoreNLP(host, port=port,lang=lang)
+
+initNLP()
+
+import smoothnlp.treebanks as treebanks
+from smoothnlp.pipeline import sentence_split,tokenize,postag,numericalize
+
+
+

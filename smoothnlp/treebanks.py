@@ -1,16 +1,10 @@
 import pytreebank as pytreebank
-from stanfordcorenlp import StanfordCoreNLP
 import json
 import re
 
-global __nlp__
-
-def initNLP(host="127.0.0.1",port=9000,lang="zh"):
-    global __nlp__
-    __nlp__ = StanfordCoreNLP(host, port=port,lang=lang)
-
 def lines2labeled_records(lines:list,
                           default_sentiment_score=2):
+    from smoothnlp import __nlp__
     def process_stree(stree):
         stree = stree.replace('\n','')
         stree = re.sub('\|prob=\d.\d+','',stree)
@@ -31,12 +25,11 @@ def lines2labeled_records(lines:list,
         train.append(lines_transfered)
     return train
 
-def labeled_record2lines(label_record):
-    return "\n".join([" ".join([str(r) for r in i]) for i in label_record if i[0]!=None])
-
 
 def lines2labeled_lines(lines:list,
                         outputFile = None):
+    def labeled_record2lines(label_record):
+        return "\n".join([" ".join([str(r) for r in i]) for i in label_record if i[0] != None])
     labeledrecords = lines2labeled_records(lines)
     labeled_trees = [labeled_record2lines(r) for r in labeledrecords]
     if outputFile:
@@ -68,12 +61,11 @@ def binarize_labeled_lines(lines):
     return (parent_line[0], binarize_labeled_lines(left_lines), binarize_labeled_lines(right_lines))
 
 
-tupleTree2strTree = lambda tree_tuple: repr(tree_tuple).replace(',','').replace("\'",'')
-
 def binarize_labeled_data(train_file_addr,output_file_addr):
     with open(train_file_addr,'r') as f:
         lines = f.readlines()
     with open(output_file_addr,'w') as o:
+        tupleTree2strTree = lambda tree_tuple: repr(tree_tuple).replace(',', '').replace("\'", '')
         l = []
         for line in lines:
             if line!="\n":
@@ -94,7 +86,6 @@ def binarize_labeled_data(train_file_addr,output_file_addr):
 
 if __name__=="__main__":
     print("hello, I am treebanks")
-    initNLP("http://localhost",port=9000)
     lines = ['今天天气不错', "我心情也不错"]
     records = (lines2labeled_records(lines))
     print(records)
