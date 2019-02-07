@@ -18,11 +18,11 @@
             - [BinarizedTree 训练数据数据处理](#binarizedtree-训练数据数据处理)
         - [RNTN Model 模型训练](#rntn-model-模型训练)
     - [NER Normalization 数字与金额的识别](#ner-normalization-数字与金额的识别)
-        - [Money 金额识别](#money-金额识别)
+        - [Money 金额识别](#money-金额识别)
         - [Numerical 数字识别](#numerical-数字识别)
 
 <!-- /TOC -->
-    
+
 -----------
 
 ## Installation
@@ -105,7 +105,7 @@ java -mx8g -cp corenlp-chinese-smoothnlp-0.1-with-dependencies.jar edu.stanford.
 ```
 
 ## NER Normalization 数字与金额的识别
-### Money 金额识别
+### Money 金额识别
 ```python
 import smoothnlp
 print(smoothnlp.money_recognize("价值两千五百元"))
