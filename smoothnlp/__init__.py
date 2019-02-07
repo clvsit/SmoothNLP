@@ -11,7 +11,7 @@ def initNLP(host="http://127.0.0.1",port=9000,lang="zh"):
 initNLP()
 
 import smoothnlp.treebanks as treebanks
-from smoothnlp.pipeline import sentence_split,tokenize,postag,numericalize
+from smoothnlp.pipeline import sentence_split,tokenize,postag,number_recognize,money_recognize,ner_recognize
 
 
 

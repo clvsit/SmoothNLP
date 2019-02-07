@@ -5,10 +5,6 @@ import re
 def sentence_split(text):
     regex = re.compile("[.。]|[!?！？]+")
     return [''.join(item) for item in zip(re.split(regex,text),re.findall(regex, text))]
-    # props ={'annotators': 'ssplit', 'pipelineLanguage': 'zh', 'outputFormat': 'json'}
-    # res = json.loads(__nlp__.annotate(text, properties=props))
-    # sents = [''.join([t['word'] for t in r['tokens']]) for r in res['sentences']]
-    # return sents
 
 def tokenize(text):
     props = {'annotators': 'tokenize', 'pipelineLanguage': 'zh', 'outputFormat': 'json'}
@@ -26,15 +22,29 @@ def postag(text):
     else:
         return " ".join([postag(sent) for sent in sentence_split(text)])
 
-def numericalize(text):
+def recognize_wrapper(text,tag:set):
+    if isinstance(tag,str):
+        tag = {tag}
     props = {'annotators': 'ner', 'pipelineLanguage': 'zh', 'outputFormat': 'json'}
     res = json.loads(__nlp__.annotate(text, properties=props))
     if len(res['sentences']) == 1:
         res = res['sentences'][0]
         if "entitymentions" in res:
-            return [{"number":(en['normalizedNER']),
-                     "start":en['characterOffsetBegin'],
-                     "end":en['characterOffsetEnd']} for en in res['entitymentions'] if en['ner']=='NUMBER' and 'normalizedNER' in en]
+            return [{"number": (en['normalizedNER']),
+                     "start": en['characterOffsetBegin'],
+                     "end": en['characterOffsetEnd']} for en in res['entitymentions'] if
+                    en['ner'] in tag and 'normalizedNER' in en]
+
+
+def number_recognize(text):
+    return recognize_wrapper(text,tag="NUMBER")
+
+def money_recognize(text):
+    return recognize_wrapper(text,tag="MONEY")
+
+def ner_recognize(text):
+    return recognize_wrapper(text,{"MONEY,NUMBER"})
+
 
 if __name__=="__main__":
     print(sentence_split("你好,欢迎来到菲律宾。菲律宾的岛屿很漂亮.在菲律宾买房子也不贵"))
@@ -44,4 +54,4 @@ if __name__=="__main__":
     regex =re.compile("[.。]|[!?！？]+")
     text = "你好,欢迎来到菲律宾。菲律宾的岛屿很漂亮.在菲律宾买房子也不贵"
     print(re.split(regex,text))
-    print(numericalize("两百五十"))
+    print(number_recognize("两百五十"))
