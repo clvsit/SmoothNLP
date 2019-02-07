@@ -25,12 +25,15 @@ def postag(text):
 def recognize_wrapper(text,tag:set):
     if isinstance(tag,str):
         tag = {tag}
+    else:
+        tag=set(tag)
     props = {'annotators': 'ner', 'pipelineLanguage': 'zh', 'outputFormat': 'json'}
     res = json.loads(__nlp__.annotate(text, properties=props))
     if len(res['sentences']) == 1:
         res = res['sentences'][0]
         if "entitymentions" in res:
-            return [{"number": (en['normalizedNER']),
+            return [{"normalized_entity": (en['normalizedNER']),
+                     "type":en['ner'],
                      "start": en['characterOffsetBegin'],
                      "end": en['characterOffsetEnd']} for en in res['entitymentions'] if
                     en['ner'] in tag and 'normalizedNER' in en]
@@ -43,7 +46,7 @@ def money_recognize(text):
     return recognize_wrapper(text,tag="MONEY")
 
 def ner_recognize(text):
-    return recognize_wrapper(text,{"MONEY,NUMBER"})
+    return recognize_wrapper(text,{"MONEY","NUMBER"})
 
 
 if __name__=="__main__":
@@ -54,4 +57,4 @@ if __name__=="__main__":
     regex =re.compile("[.。]|[!?！？]+")
     text = "你好,欢迎来到菲律宾。菲律宾的岛屿很漂亮.在菲律宾买房子也不贵"
     print(re.split(regex,text))
-    print(number_recognize("两百五十"))
+    print(ner_recognize("两百五十"))
