@@ -17,6 +17,9 @@
             - [半监督打标数据生成](#半监督打标数据生成)
             - [BinarizedTree 训练数据数据处理](#binarizedtree-训练数据数据处理)
         - [RNTN Model 模型训练](#rntn-model-模型训练)
+    - [NER Normalization 数字与金额的识别](#ner-normalization-数字与金额的识别)
+        - [Money 金额识别](#money-金额识别)
+        - [Numerical 数字识别](#numerical-数字识别)
 
 <!-- /TOC -->
     
@@ -99,4 +102,25 @@ BinarizedTree 数据格式如下：
 
 ```shell
 java -mx8g -cp corenlp-chinese-smoothnlp-0.1-with-dependencies.jar edu.stanford.nlp.sentiment.SentimentTraining -numHid 20 -trainPath train_ready.txt -train -model model.ser.gz
+```
+
+## NER Normalization 数字与金额的识别
+### Money 金额识别
+```python
+import smoothnlp
+print(smoothnlp.money_recognize("价值两千五百元"))
+print(smoothnlp.money_recognize("我新买的iphone原价要八百刀"))
+```
+
+```shell
+[{'normalized_entity': '元2500', 'type': 'MONEY', 'start': 2, 'end': 7}]
+[{'normalized_entity': '$800', 'type': 'MONEY', 'start': 13, 'end': 16}]
+```
+### Numerical 数字识别
+```python
+smoothnlp.number_recognize("后宫佳丽有三千")
+```
+
+```shell
+[{'normalized_entity': '3000', 'type': 'NUMBER', 'start': 5, 'end': 7}]
 ```
