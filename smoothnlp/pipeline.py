@@ -22,7 +22,7 @@ def postag(text):
     else:
         return " ".join([postag(sent) for sent in sentence_split(text)])
 
-def recognize_wrapper(text,tag:set):
+def recognize_wrapper(text,tag:set={}):
     if isinstance(tag,str):
         tag = {tag}
     else:
@@ -32,12 +32,19 @@ def recognize_wrapper(text,tag:set):
     if len(res['sentences']) == 1:
         res = res['sentences'][0]
         if "entitymentions" in res:
+            if not tag:
+                return [{"normalized_entity": (en['normalizedNER']),
+                     "type":en['ner'],
+                     "start": en['characterOffsetBegin'],
+                     "end": en['characterOffsetEnd']} for en in res['entitymentions']]
             return [{"normalized_entity": (en['normalizedNER']),
                      "type":en['ner'],
                      "start": en['characterOffsetBegin'],
                      "end": en['characterOffsetEnd']} for en in res['entitymentions'] if
                     en['ner'] in tag and 'normalizedNER' in en]
 
+def ner_recognize(text):
+    return recognize_wrapper(text)
 
 def number_recognize(text):
     return recognize_wrapper(text,tag="NUMBER")
@@ -45,8 +52,8 @@ def number_recognize(text):
 def money_recognize(text):
     return recognize_wrapper(text,tag="MONEY")
 
-def ner_recognize(text):
-    return recognize_wrapper(text,{"MONEY","NUMBER"})
+#def ner_recognize(text):
+#    return recognize_wrapper(text,{"MONEY","NUMBER"})
 
 
 if __name__=="__main__":
