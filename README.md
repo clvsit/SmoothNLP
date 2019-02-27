@@ -1,5 +1,5 @@
 # SmoothNLP
-
+[![GitHub release](https://img.shields.io/badge/Version-0.1-green.svg)](https://github.com/zhangruinan/SmoothNLP/releases)
 ****	
 |Author|VC|
 |---|---
@@ -20,6 +20,7 @@
     - [NER Normalization 数字与金额的识别](#ner-normalization-数字与金额的识别)
         - [Money 金额识别](#money-金额识别)
         - [Numerical 数字识别](#numerical-数字识别)
+    - [CoreNLP NER 训练](https://github.com/zhangruinan/SmoothNLP/tree/master/ner#corenlp%E6%A1%86%E6%9E%B6)
 
 <!-- /TOC -->
 
