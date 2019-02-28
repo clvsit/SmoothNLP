@@ -125,3 +125,26 @@ smoothnlp.number_recognize("后宫佳丽有三千")
 ```shell
 [{'normalized_entity': '3000', 'type': 'NUMBER', 'start': 5, 'end': 7}]
 ```
+
+## 自训练Annotator-模型配置
+在完成自训练模型后,须将对应的模型地址参数指向模型文件地址. 关于CoreNLP官方支持的Annotator相关Argument具体文档, 
+可以看[这里](https://stanfordnlp.github.io/CoreNLP/annotators.html). 
+
+SmoothNLP中实现了3种模型加载方式. 下面将用情感模型(sentiment.model)举例
+
+* 通过编写*.properties* 文件并在启动Server的时候加载 (推荐)
+```angular2
+java -jar corenlp-chinese-smoothnlp-0.1-jar-with-dependencies.jar -props nlp.properties
+```
+
+* 启动Server时通过传入额外参数实现 (不推荐)
+```angular2
+java -jar corenlp-chinese-smoothnlp-0.1-jar-with-dependencies.jar sentiment.model edu/stanford/nlp/models/sentiment/sentiment_model_zh.ser.gz
+```
+
+* 在调用Server时传入Annotator相关参数 (推荐,由于CoreNLP相关模型支持Latent加载)
+这里举例一个wget在shell里的调用
+```
+wget --post-data '今天天气不错' 'localhost:9000/?properties={"annotators": "tokenize,sentiment", 
+"sentiment.model":"edu/stanford/nlp/models/sentiment/sentiment_model_zh.gz","outputFormat": "json","pipelineLanguage":"zh"}' -O -
+```
