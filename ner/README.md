@@ -138,18 +138,42 @@ crf_test [官方文档](https://taku910.github.io/crfpp/#testing)已经说得很
 #### evaluation
 感谢[CoNLL官方](https://www.clips.uantwerpen.be/conll2000/chunking/output.html) 提供的 [conlleval.pl](https://github.com/zhangruinan/SmoothNLP/blob/master/ner/crfpp/conlleval.pl) 对 sequence tagging 直接做效果评测的perl代码,我已经把源码中部分做了修改, 以直接兼容`crf_test`的输出结果:
 ```
-perl conlleval.pl < test_results.txt
+perl conlleval.pl -r < test_results.txt
 ```
 输出:
+请参考到下一个section
+
+### CRF++ 不同特征模板效果对比
+* Bigram Lexicon-Only Model 
 ```
-processed 102137 tokens with 906 phrases; found: 907 phrases; correct: 900.
-accuracy:  99.96%; precision:  99.23%; recall:  99.34%; FB1:  99.28
-                 : precision:   0.00%; recall:   0.00%; FB1:   0.00  5
-                 : precision:   0.00%; recall:   0.00%; FB1:   0.00  5
-               ns: precision: 100.00%; recall: 100.00%; FB1: 100.00  138
-               nt: precision:  99.74%; recall: 100.00%; FB1:  99.87  764
+processed 102137 tokens with 7395 phrases; found: 5358 phrases; correct: 5015.
+accuracy:  97.54%; precision:  93.60%; recall:  67.82%; FB1:  78.65
+             B-ns: precision:  88.73%; recall:  45.65%; FB1:  60.29  71
+             B-nt: precision:  92.58%; recall:  65.23%; FB1:  76.53  539
+             E-ns: precision:  88.73%; recall:  45.65%; FB1:  60.29  71
+             E-nt: precision:  91.65%; recall:  64.58%; FB1:  75.77  539
+             M-ns: precision:  86.67%; recall:  33.33%; FB1:  48.15  30
+             M-nt: precision:  89.71%; recall:  68.56%; FB1:  77.72  525
+                S: precision:  94.86%; recall:  70.46%; FB1:  80.86  3583
 ```
+* Bigram Lexicon-with-Postag Model
+```
+processed 102137 tokens with 7395 phrases; found: 7100 phrases; correct: 6731.
+accuracy:  99.23%; precision:  94.80%; recall:  91.02%; FB1:  92.87
+             B-ns: precision:  84.62%; recall:  55.80%; FB1:  67.25  91
+             B-nt: precision:  91.07%; recall:  80.00%; FB1:  85.18  672
+             E-ns: precision:  84.62%; recall:  55.80%; FB1:  67.25  91
+             E-nt: precision:  90.03%; recall:  79.08%; FB1:  84.20  672
+             M-ns: precision:  92.50%; recall:  47.44%; FB1:  62.71  40
+             M-nt: precision:  89.11%; recall:  79.77%; FB1:  84.18  615
+                S: precision:  97.07%; recall:  98.98%; FB1:  98.02  4919
+```
+> 这里简单诺列了一下两个最普通的crf特征模板, 作为blog的作者, 希望感兴趣的朋友可以多多尝试调节crf++涉及的各种参数和纳入模型的特征, 虽然讨厌"数据科学是一门试验性科学"这个说法, 但是"实践出真知". 
+
 
 ### TODO
-在pku数据集上对比crf++中不同feature template对模型结果的影响. 
+- [x] 在pku数据集上对比crf++中不同feature template对模型结果的影响. 
 并将可配置模板集成到Smoothnlp Maven项目中. 
+- [ ] Hanlp QuickPerceptronTagger 详情指南与效果评估.
+- [ ] [BiLSTM+CRF](https://github.com/UKPLab/emnlp2017-bilstm-cnn-crf) 效果评估
+- [ ] [Flair](https://github.com/zalandoresearch/flair) NER 效果评估
