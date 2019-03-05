@@ -121,6 +121,7 @@ B   # 代表Bigram, 表示当前预测标签与前标签的组合也被做成特
 crf_learn template_file train_file model_file args
 ```
 模型训练实用参数(args):
+
 | Paramete | Explanation | 
 | --------- | ------------ |
 | -f | 有效特征的最少出现频率(默认最小为1,大规模训练建议调大来缩短训练时间和避免overfit) |
