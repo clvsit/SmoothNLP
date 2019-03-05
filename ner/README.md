@@ -113,6 +113,43 @@ U22:%x[0,1]/%x[1,1]/%x[2,1]
 B   # 代表Bigram, 表示当前预测标签与前标签的组合也被做成特征放入模型
 ```
 
+### CRF++ 实用指南
+本项目中, 准备了两份template供参考, 一份是[Lexicon_Only_Bigram](https://github.com/zhangruinan/SmoothNLP/blob/master/ner/crfpp/template_bigram_lexicon_only.txt), 另外一份是[Lexicon_with_Postag_Bigram](https://github.com/zhangruinan/SmoothNLP/blob/master/ner/crfpp/template_postag_CoNLL2000.txt). 
+
+#### Train
+```
+crf_learn template_file train_file model_file args
+```
+模型训练实用参数(args):
+| Paramete | Explanation | 
+| --------- | ------------ |
+| -f | 有效特征的最少出现频率(默认最小为1,大规模训练建议调大来缩短训练时间和避免overfit) |
+| -c | cost function coefficient (默认值为1,作为penalize参数) |
+| -m | 训练Iteration次数不超过m次, (默认为10k,大多数情况,训练过程由-e参数停下) |
+| -e | 用于terminal criterion, 可以理解为, minimal marginal error|
+| -H | 可以理解为 maximal patient iterations|
+
+#### predict/test
+```
+crf_test -m model_file test_files ... > test_result.txt
+```
+crf_test [官方文档](https://taku910.github.io/crfpp/#testing)已经说得很清楚了, 这里就不再转译了.
+
+#### evaluation
+感谢[CoNLL官方](https://www.clips.uantwerpen.be/conll2000/chunking/output.html) 提供的 [conlleval.pl](https://github.com/zhangruinan/SmoothNLP/blob/master/ner/crfpp/conlleval.pl) 对 sequence tagging 直接做效果评测的perl代码,我已经把源码中部分做了修改, 以直接兼容`crf_test`的输出结果:
+```
+perl conlleval.pl < test_results.txt
+```
+输出:
+```
+processed 102137 tokens with 906 phrases; found: 907 phrases; correct: 900.
+accuracy:  99.96%; precision:  99.23%; recall:  99.34%; FB1:  99.28
+                 : precision:   0.00%; recall:   0.00%; FB1:   0.00  5
+                 : precision:   0.00%; recall:   0.00%; FB1:   0.00  5
+               ns: precision: 100.00%; recall: 100.00%; FB1: 100.00  138
+               nt: precision:  99.74%; recall: 100.00%; FB1:  99.87  764
+```
+
 ### TODO
 在pku数据集上对比crf++中不同feature template对模型结果的影响. 
 并将可配置模板集成到Smoothnlp Maven项目中. 

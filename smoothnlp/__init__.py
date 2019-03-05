@@ -12,6 +12,3 @@ initNLP()
 
 import smoothnlp.treebanks as treebanks
 from smoothnlp.pipeline import sentence_split,tokenize,postag,number_recognize,money_recognize,ner_recognize
-
-
-
