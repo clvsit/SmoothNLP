@@ -1,7 +1,7 @@
 ## SmoothNLP - A Maven Project
 ### Maven Project Compilation
 ```shell
-git clone high_privilege.high_privilege_dwd_serv_cust_msg_1ms_d
+git clone https://github.com/zhangruinan/SmoothNLP.githttps://github.com/zhangruinan/SmoothNLP.git
 cd smoothnlp_maven
 mvn clean package   ### 依据提供给的pom打包maven项目
 ```
