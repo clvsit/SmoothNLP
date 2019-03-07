@@ -18,10 +18,9 @@ public class NormalizedNERudf extends UDF{
 
     public static void main(String[] args){
 //        NormalizedNER nner = new NormalizedNER();
-        System.out.println(normalizedNER.getNormalizedNERinStr("地址是浙江省台州市路桥区金清镇人民南路86号 收件人陈巧 电话是13224053520"));
         NormalizedNERudf nnerUDF = new NormalizedNERudf();
         Text sampleText = new Text();
-        sampleText.set("地址是浙江省台州市路桥区金清镇人民南路86号 收件人陈巧 电话是13224053520");
+        sampleText.set("地址是浙江省台州市路桥区金清镇人民南路999号 收件人张三 电话是13444444444");
         Text sampleOutput = nnerUDF.evaluate(sampleText);
         System.out.println(sampleOutput.toString());
     }
