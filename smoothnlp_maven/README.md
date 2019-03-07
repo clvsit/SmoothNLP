@@ -8,4 +8,5 @@ mvn clean package   ### 依据提供给的pom打包maven项目
 
 ### Todo
 * [ ] Doc on current supported java API
-* [ ] Add UDF implementations for many NLP-related functions
+* [ ] Add Hive UDF implementations for many NLP-related functions
+* [ ] JUnit Test on Existing Modules
