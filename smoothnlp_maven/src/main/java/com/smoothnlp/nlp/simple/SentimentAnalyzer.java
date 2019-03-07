@@ -41,12 +41,4 @@ public class SentimentAnalyzer {
         CoreSentence sentence = document.sentences().get(0);
         return sentence.sentimentTree();
     }
-
-    public static void main(String[] args){
-        String sampleText = "今天天气不错";
-        SentimentAnalyzer ssa = new SentimentAnalyzer();
-        System.out.println(ssa.getSentimentValue(sampleText));
-        System.out.println(ssa.getSentimentTree(sampleText).toString());
-    }
-
 }

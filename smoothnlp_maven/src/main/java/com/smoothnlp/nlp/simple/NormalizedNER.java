@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import edu.stanford.nlp.pipeline.CoreDocument;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.pipeline.CoreEntityMention;
+import edu.stanford.nlp.ling.CoreAnnotations;
 import edu.stanford.nlp.util.CoreMap;
 import edu.stanford.nlp.ling.CoreAnnotations;
 import com.google.gson.Gson;
@@ -17,10 +18,8 @@ import com.google.gson.GsonBuilder;
 
 public class NormalizedNER {
 
-    private static String sampleText = "地址是浙江省台州市路桥区金清镇人民南路86号 收件人陈巧 电话是13224053520 ";
     public static InputStream CHINESE_DEFAULT_PROPS_INPUTSTREAM =  NormalizedNER.class.getClass().getResourceAsStream("/StanfordCoreNLP-chinese.properties");
 
-//    public static InputStream CHINESE_DEFAULT_PROPS_INPUTSTREAM = New FileInputStr/
     public final Properties props;
     public final StanfordCoreNLP pipeline;
 
@@ -45,13 +44,10 @@ public class NormalizedNER {
             emMap.put("tokens",em.tokens().toString());
             emMap.put("charOffsets",em.charOffsets().toString());
             emMap.put("entityType",em.entityType());
-
-//            CoreMap coreMap = em.coreMap();
-//            for (Class k: coreMap.keySet()){
-//                System.out.println(coreMap.get(k));
-//                System.out.println(k);
-//            }
             Gson gsonobject = new Gson();
+            if (em.coreMap().containsKey(CoreAnnotations.NormalizedNamedEntityTagAnnotation.class)){
+                emMap.put("normalizedEntityTag",em.coreMap().get(CoreAnnotations.NormalizedNamedEntityTagAnnotation.class));
+            }
             String jsonStr = gsonobject.toJson(emMap);
             nerRes.add(jsonStr);
         }
@@ -65,10 +61,4 @@ public class NormalizedNER {
         return jsonStr;
     }
 
-    public static void main(String[] args){
-        NormalizedNER nner = new NormalizedNER();
-        String res = Arrays.toString(nner.getNormalizedNER("五块钱"));
-//        nner.getNormalizedNER("江西省吉安市青原区河东街道科教路井大阳光城三期一单元29栋907室罗勇军13530943730");
-        System.out.println(res);
-    }
 }
