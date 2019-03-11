@@ -8,7 +8,7 @@
 
 <!-- TOC -->
 
-- [SmoothNLP](#smoothnlp)
+<!-- - [SmoothNLP](#smoothnlp)
     - [Installation](#installation)
         - [Python](#python)
         - [Java Server](#java-server)
@@ -20,11 +20,11 @@
     - [NER Normalization 数字与金额的识别](#ner-normalization-数字与金额的识别)
         - [Money 金额识别](#money-金额识别)
         - [Numerical 数字识别](#numerical-数字识别)
-    - [NER 命名实体识别 - 训练过程与效果评估](https://github.com/zhangruinan/SmoothNLP/tree/master/ner)
+    - [NER 命名实体识别 - 训练过程与效果评估](https://github.com/zhangruinan/SmoothNLP/tree/master/ner) -->
 
 <!-- /TOC -->
 
------------
+<!-- ----------- -->
 
 ## Installation
 ### Python 
@@ -53,60 +53,10 @@ java -cp corenlp-chinese-smoothnlp-0.1-with-dependencies.jar com.smoothnlp.nlp.R
 ``` 
 ------------
 
-## 情感模型 Sentiment Analysis 
-### 情感标注数据生成
-#### 半监督打标数据生成
-```python
-from smoothnlp.treebanks import initNLP,lines2labeled_lines
-initNLP("http://127.0.0.1",port=9000) ## 启动一个CoreNLP的Server
-sample_liens = ['今天天气不错', "我心情也不错"]
-lines2labeled_lines(sample_liens,"train_raw.txt")  ## 利用现有模型先标注，并写入到文件
-```
-输出文件地址可以参照[这里](https://github.com/zhangruinan/SmoothNLP/blob/master/smoothnlp/examples/sample_out.txt)
 
-#### BinarizedTree 训练数据数据处理
-```python
-from smoothnlp.treebanks import binarize_labeled_data
-binarize_labeled_data("train_raw.txt","train_ready.txt")
-```
-BinarizedTree 数据格式如下：
-```text
-(3 (3 今天) (2 (2 天气) (3 不错)))
-(2 (2 (2 我) (2 心情)) (3 (2 也) (3 不错)))
-```
-
-
-
-**模型训练数据 Training data format**
-```angular2html
-3 今天 天气 不错
-3 今天
-2 天气
-3 不错
-
-2 我 心情 也 不错
-2 我 心情
-2 我
-2 心情
-3 也 不错
-2 也
-3 不错
-```
-
-**模型训练数据 (TreeBanks)**
-```angular2html
-(3, (3, '今天'), (2, (2, '天气'), (3, '不错')))
-(2, (2, (2, '我'), (2, '心情')), (3, (2, '也'), (3, '不错')))
-```
-
-### RNTN Model 模型训练
-
-```shell
-java -mx8g -cp corenlp-chinese-smoothnlp-0.1-with-dependencies.jar edu.stanford.nlp.sentiment.SentimentTraining -numHid 20 -trainPath train_ready.txt -train -model model.ser.gz
-```
-
-## NER Normalization 数字与金额的识别
-### Money 金额识别
+## NLP Pipeline相关功能
+### NER Normalization 数字与金额的识别
+#### Money 金额识别
 ```python
 import smoothnlp
 print(smoothnlp.money_recognize("价值两千五百元"))
@@ -117,7 +67,7 @@ print(smoothnlp.money_recognize("我新买的iphone原价要八百刀"))
 [{'normalized_entity': '元2500', 'type': 'MONEY', 'start': 2, 'end': 7}]
 [{'normalized_entity': '$800', 'type': 'MONEY', 'start': 13, 'end': 16}]
 ```
-### Numerical 数字识别
+#### Numerical 数字识别
 ```python
 smoothnlp.number_recognize("后宫佳丽有三千")
 ```
@@ -126,7 +76,8 @@ smoothnlp.number_recognize("后宫佳丽有三千")
 [{'normalized_entity': '3000', 'type': 'NUMBER', 'start': 5, 'end': 7}]
 ```
 
-## 自训练Annotator-模型配置
+### CoreNLP相关
+#### 自训练Annotator-模型配置
 在完成自训练模型后,须将对应的模型地址参数指向模型文件地址. 关于CoreNLP官方支持的Annotator相关Argument具体文档, 
 可以看[这里](https://stanfordnlp.github.io/CoreNLP/annotators.html). 
 
