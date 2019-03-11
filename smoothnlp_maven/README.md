@@ -6,11 +6,15 @@ cd smoothnlp_maven
 mvn clean package   ### 依据提供给的pom打包maven项目
 ```
 
+### HiveUDF
+SmoothNLP中支持的HiveUDF均在com.smoothnlp.nlp.HiveUDF下, 具体代码在[这里](https://github.com/zhangruinan/SmoothNLP/tree/master/smoothnlp_maven/src/main/java/com/smoothnlp/nlp/HiveUDF): 
+
+| UDF 名称 | 描述及解释 | HQL实例 |
+|-------| -------- | --------- |
+| x      | x       | x        | 
+
 ### Todo
 * [ ] Doc on current supported java API
-<<<<<<< HEAD
 * [ ] Add Hive UDF implementations for many NLP-related functions
+* [ ] Add Hive UDAF implementations for many NLP-related functions
 * [ ] JUnit Test on Existing Modules
-=======
-* [ ] Add UDF implementations for many NLP-related functions
->>>>>>> 04c0723a6415c3e768d4118a0a785cc98d5d4f2f
