@@ -16,7 +16,8 @@ setuptools.setup(
     install_requires=[
         'numpy',
         'pytreebank',
-        'stanfordcorenlp'
+        'stanfordcorenlp',
+        "jpype1>=0.6.2"
       ],
     classifiers=[
         "Programming Language :: Python :: 3",

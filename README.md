@@ -20,7 +20,7 @@
     - [NER Normalization 数字与金额的识别](#ner-normalization-数字与金额的识别)
         - [Money 金额识别](#money-金额识别)
         - [Numerical 数字识别](#numerical-数字识别)
-    - [CoreNLP NER 训练](https://github.com/zhangruinan/SmoothNLP/tree/master/ner#corenlp%E6%A1%86%E6%9E%B6)
+    - [NER 命名实体识别 - 训练过程与效果评估](https://github.com/zhangruinan/SmoothNLP/tree/master/ner)
 
 <!-- /TOC -->
 
@@ -148,3 +148,9 @@ java -jar corenlp-chinese-smoothnlp-0.1-jar-with-dependencies.jar sentiment.mode
 wget --post-data '今天天气不错' 'localhost:9000/?properties={"annotators": "tokenize,sentiment", 
 "sentiment.model":"edu/stanford/nlp/models/sentiment/sentiment_model_zh.gz","outputFormat": "json","pipelineLanguage":"zh"}' -O -
 ```
+
+
+### TODO
+* [ ] 重构HomePage Document, 修改为Java中API, 和其他基础信息
+* [ ] python 项目中添加Jpype支持
+* [ ] Segment/切词模块的开发
