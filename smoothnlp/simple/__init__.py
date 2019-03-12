@@ -1,4 +1,4 @@
 import smoothnlp
 from smoothnlp.jvm import LazyLoadingJClass,SafeJClass
-ner = SafeJClass("com.smoothnlp.nlp.simple.NormalizedNER")
-sentiment = SafeJClass("com.smoothnlp.nlp.simple.SentimentAnalyzer")
+ner = LazyLoadingJClass("com.smoothnlp.nlp.simple.NormalizedNER")
+sentiment = LazyLoadingJClass("com.smoopythnlp.nlp.simple.SentimentAnalyzer")

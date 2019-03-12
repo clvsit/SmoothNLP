@@ -16,4 +16,3 @@ from smoothnlp.pipeline import sentence_split,tokenize,postag,number_recognize,m
 import smoothnlp.jvm as jvm
 from smoothnlp.jvm import initJVMConnection
 import smoothnlp.simple as simple
-from smoothnlp.simple import nerRecognizer

@@ -6,7 +6,6 @@
     - 另外一方面, 基于黑盒的RNN/CNN模型在 `句子` -> `label` 上训练往往能取得比较好的效果, 但是在模型泛化能力上极其有限, 且黑盒不可解释; CoreNLP由于训练样本的特殊性, 在固定短语上有预测能力, 实现了*相同表达方式, 不同主语的情况* 有一定的模型泛华效果
 - CoreNLP提出的[RNTN](http://nlp.stanford.edu/~socherr/EMNLP2013_RNTN.pdf) 模型全部使用Java实现, 并且附有训练接口, 下文中会有更详细的解释, 且SmoothNLP提供了一些方便快捷的模型训练帮助脚本. 
 
-## 情感模型 Sentiment Analysis 
 ### 情感标注数据生成
 #### 半监督打标数据生成
 ```python
