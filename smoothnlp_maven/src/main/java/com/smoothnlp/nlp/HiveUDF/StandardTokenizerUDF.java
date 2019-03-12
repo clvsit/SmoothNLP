@@ -1,4 +1,8 @@
 package com.smoothnlp.nlp.HiveUDF;
+/**
+ * author: Victor
+ * A class iherit hive.ql.exec for UDF usage of HanLP StandardTokenizer Fn
+ */
 
 import com.hankcs.hanlp.seg.common.Term;
 import com.hankcs.hanlp.tokenizer.StandardTokenizer;

@@ -1,5 +1,6 @@
 package com.smoothnlp.nlp.simple;
 
+import com.smoothnlp.nlp.SimplePipeline;
 import edu.stanford.nlp.pipeline.CoreDocument;
 import edu.stanford.nlp.pipeline.CoreSentence;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
@@ -11,7 +12,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 
-public class SentimentAnalyzer {
+public class SentimentAnalyzer implements SimplePipeline {
 
     public static InputStream CHINESE_DEFAULT_PROPS_INPUTSTREAM =  SentimentAnalyzer.class.getClass().getResourceAsStream("/StanfordCoreNLP-chinese.properties");
     public final Properties props;
@@ -35,10 +36,21 @@ public class SentimentAnalyzer {
         return sentence.sentiment();
     }
 
+    public String analyze(String inputText){
+        return getSentimentValue(inputText);
+    }
+
     public Tree getSentimentTree(String inputText){
         CoreDocument document = new CoreDocument(inputText);
         this.pipeline.annotate(document);
         CoreSentence sentence = document.sentences().get(0);
+        System.out.println(sentence.coreMap().toShorterString());
         return sentence.sentimentTree();
+    }
+
+    public static void main(String[] args){
+        SentimentAnalyzer sa = new SentimentAnalyzer();
+        sa.getSentimentTree("今天天气不错");
+
     }
 }

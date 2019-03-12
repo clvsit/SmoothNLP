@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.FileInputStream;
 
 
+import com.smoothnlp.nlp.SimplePipeline;
 import edu.stanford.nlp.pipeline.CoreDocument;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.pipeline.CoreEntityMention;
@@ -16,7 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 
-public class NormalizedNER {
+public class NormalizedNER implements SimplePipeline {
 
     public static InputStream CHINESE_DEFAULT_PROPS_INPUTSTREAM =  NormalizedNER.class.getClass().getResourceAsStream("/StanfordCoreNLP-chinese.properties");
 
@@ -61,4 +62,7 @@ public class NormalizedNER {
         return jsonStr;
     }
 
+    public String analyze(String inputText){
+        return getNormalizedNERinStr(inputText);
+    }
 }

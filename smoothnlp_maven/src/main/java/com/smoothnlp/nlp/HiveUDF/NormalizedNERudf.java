@@ -1,6 +1,11 @@
 package com.smoothnlp.nlp.HiveUDF;
-import com.smoothnlp.nlp.simple.NormalizedNER;
 
+/**
+ * author: Victor
+ *  Normalized NER functions from CoreNLP for Hive UDF Usage
+ */
+
+import com.smoothnlp.nlp.simple.NormalizedNER;
 import org.apache.hadoop.hive.ql.exec.UDF;
 import org.apache.hadoop.io.Text;
 
