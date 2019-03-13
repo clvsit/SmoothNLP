@@ -35,34 +35,35 @@ public class NormalizedNER implements SimplePipeline {
         this.pipeline = new StanfordCoreNLP(props);
     }
 
-    public String[] getNormalizedNER(String inputText){
+    public String getNormalizedNER(String inputText){
         CoreDocument document = new CoreDocument(inputText);
         this.pipeline.annotate(document);
-        ArrayList<String> nerRes = new ArrayList<String>();
+        ArrayList<HashMap<String,String>> nerRes = new ArrayList<HashMap<String,String>>();
+        Gson gsonobject = new Gson();
         for (CoreEntityMention em : document.entityMentions()){
             HashMap<String,String> emMap = new HashMap<String,String>();
             emMap.put("text",em.text());
             emMap.put("tokens",em.tokens().toString());
             emMap.put("charOffsets",em.charOffsets().toString());
             emMap.put("entityType",em.entityType());
-            Gson gsonobject = new Gson();
             if (em.coreMap().containsKey(CoreAnnotations.NormalizedNamedEntityTagAnnotation.class)){
                 emMap.put("normalizedEntityTag",em.coreMap().get(CoreAnnotations.NormalizedNamedEntityTagAnnotation.class));
             }
-            String jsonStr = gsonobject.toJson(emMap);
-            nerRes.add(jsonStr);
+            nerRes.add(emMap);
         }
-        return nerRes.toArray(new String[nerRes.size()]);
-    }
-
-    public String getNormalizedNERinStr(String inputText){
-        String[] arrayRes = this.getNormalizedNER(inputText);
-        Gson gsonobject = new Gson();
-        String jsonStr = gsonobject.toJson(arrayRes);
+        String jsonStr = gsonobject.toJson(nerRes);
         return jsonStr;
     }
 
+//    public String getNormalizedNERinStr(String inputText){
+//        String[] arrayRes = this.getNormalizedNER(inputText);
+//        Gson gsonobject = new Gson();
+//        String jsonStr = gsonobject.toJson(arrayRes);
+//        return jsonStr;
+//    }
+
     public String analyze(String inputText){
-        return getNormalizedNERinStr(inputText);
+        return getNormalizedNER(inputText);
     }
+
 }

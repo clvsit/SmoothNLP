@@ -25,7 +25,7 @@ public class NormalizedNERudf extends UDF{
 
     public Text evaluate(Text input){
         String inputText = input.toString();
-        String outputString = normalizedNER.getNormalizedNERinStr(inputText);
+        String outputString = normalizedNER.analyze(inputText);
         Text textres = new Text();
         textres.set(outputString);
         return textres;
