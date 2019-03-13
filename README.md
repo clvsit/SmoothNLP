@@ -6,6 +6,8 @@
 |E-mail|ruinan.zhang@icloud.com|
 ****
 
+
+
 <!-- TOC -->
 
 <!-- - [SmoothNLP](#smoothnlp)
@@ -27,6 +29,69 @@
 <!-- ----------- -->
 
 ## Installation
+### Python
+请注意使用`python3`安装smoothnlp项目
+```shell
+pip3 install git+https://github.com/zhangruinan/SmoothNLP.git
+```
+
+### Java Maven-Project
+**SmoothNLP**项目的主要功能都在Java中有实现, 打包好的Jar文件会在[Release页面]定期更新, 或者在提供的[maven](https://github.com/zhangruinan/SmoothNLP/tree/master/smoothnlp_maven)项目代码中, 直接编译即可
+```
+git clone https://github.com/zhangruinan/SmoothNLP.git
+cd smoothnlp_maven
+mvn clean package
+```
+编译好的Jar文件会在 `smoothnlp_maven/target/smoothnlp-*.jar`
+
+------------
+
+### Usage 调用 
+#### Initialize 启动
+目前在*0.1*版本中, python的功能支持, 还是通过`jpype`将thread添加到一个运行的jvm上,原理类似于 `pyhanlp` 与 `HanLP`, 在*0.2*版本中, 将支持 smoothnlp-*.jar 通过脚本从Release中自动下载的功能. 
+```python
+import smoothnlp
+smoothnlp.initJVMConnection("/smoothnlp_maven/target/smoothnlp-0.1-jar-with-dependencies.jar")  
+```
+
+#### 1. NER 命名实体识别
+SmoothNLP继承了将识别出来的实体进行normalize的功能, 主要支持对象有: 日期(Date),金额(Money),数量(Number)
+```python
+import json
+ner = smoothnlp.simple.ner()
+json.loads(ner.analyze("在2019年3月八号,我买了个价值五十元的十个苹果"))
+```
+output 输出:
+```
+[{'charOffsets': '(1,10)',
+  'entityType': 'DATE',
+  'tokens': '[2019年-2, 3月-3, 八号-4]',
+  'normalizedEntityTag': '2019-03-08',
+  'text': '2019年3月八号'},
+ {'charOffsets': '(17,20)',
+  'entityType': 'MONEY',
+  'tokens': '[五十-11, 元-12]',
+  'normalizedEntityTag': '元50',
+  'text': '五十元'},
+ {'charOffsets': '(21,22)',
+  'entityType': 'NUMBER',
+  'tokens': '[十-14]',
+  'normalizedEntityTag': '10',
+  'text': '十'}]
+```
+
+#### 2. Sentiment 情感分析
+```python
+sentiment= smoothnlp.simple.sentiment()
+sentiment.analyze("今天天气不错")
+```
+output 输出:
+```
+'Positive'
+```
+
+
+<!-- ## Installation
 ### Python 
 ```shell
 pip3 install git+https://github.com/zhangruinan/SmoothNLP.git
@@ -50,31 +115,8 @@ For instance:
 如需添加额外参数，可参考[官方文档](https://stanfordnlp.github.io/CoreNLP/corenlp-server.html),下面是一个额外参数调用的例子：
 ```shell
 java -cp corenlp-chinese-smoothnlp-0.1-with-dependencies.jar com.smoothnlp.nlp.RESTServer -port 9001
-``` 
-------------
+```  -->
 
-
-## NLP Pipeline相关功能
-### NER Normalization 数字与金额的识别
-#### Money 金额识别
-```python
-import smoothnlp
-print(smoothnlp.money_recognize("价值两千五百元"))
-print(smoothnlp.money_recognize("我新买的iphone原价要八百刀"))
-```
-
-```shell
-[{'normalized_entity': '元2500', 'type': 'MONEY', 'start': 2, 'end': 7}]
-[{'normalized_entity': '$800', 'type': 'MONEY', 'start': 13, 'end': 16}]
-```
-#### Numerical 数字识别
-```python
-smoothnlp.number_recognize("后宫佳丽有三千")
-```
-
-```shell
-[{'normalized_entity': '3000', 'type': 'NUMBER', 'start': 5, 'end': 7}]
-```
 
 ### CoreNLP相关
 #### 自训练Annotator-模型配置
