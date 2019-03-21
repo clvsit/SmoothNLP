@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.io.FileInputStream;
 
 
-import com.smoothnlp.nlp.SimplePipeline;
+import com.smoothnlp.nlp.simple.SimplePipeline;
 import edu.stanford.nlp.pipeline.CoreDocument;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.pipeline.CoreEntityMention;

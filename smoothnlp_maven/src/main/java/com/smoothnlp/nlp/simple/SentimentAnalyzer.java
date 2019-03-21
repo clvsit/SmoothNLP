@@ -1,15 +1,17 @@
 package com.smoothnlp.nlp.simple;
 
-import com.smoothnlp.nlp.SimplePipeline;
+import com.smoothnlp.nlp.simple.SimplePipeline;
 import edu.stanford.nlp.pipeline.CoreDocument;
 import edu.stanford.nlp.pipeline.CoreSentence;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
-import sun.java2d.pipe.SpanShapeRenderer;
 import edu.stanford.nlp.trees.Tree;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.HashMap;
+import java.util.ArrayList;
+import com.google.gson.Gson;
 
 
 public class SentimentAnalyzer implements SimplePipeline {
@@ -33,7 +35,12 @@ public class SentimentAnalyzer implements SimplePipeline {
         CoreDocument document = new CoreDocument(inputText);
         this.pipeline.annotate(document);
         CoreSentence sentence = document.sentences().get(0);
-        return sentence.sentiment();
+        HashMap<String,String> sentiment_result = new HashMap<String, String>();
+        sentiment_result.put("sentiment.Label",sentence.sentiment());
+        ArrayList<HashMap<String,String>> sentiment_result_list = new ArrayList<HashMap<String,String>>();
+        sentiment_result_list.add(sentiment_result);
+        Gson gsonObject = new Gson();
+        return gsonObject.toJson(sentiment_result_list);
     }
 
     public String analyze(String inputText){
@@ -51,6 +58,6 @@ public class SentimentAnalyzer implements SimplePipeline {
     public static void main(String[] args){
         SentimentAnalyzer sa = new SentimentAnalyzer();
         sa.getSentimentTree("今天天气不错");
-
     }
+
 }

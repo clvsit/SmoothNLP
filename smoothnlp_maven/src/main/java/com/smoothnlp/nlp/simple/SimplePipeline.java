@@ -1,4 +1,4 @@
-package com.smoothnlp.nlp;
+package com.smoothnlp.nlp.simple;
 
 public interface SimplePipeline {
     public String analyze(String inputText);
