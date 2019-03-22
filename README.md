@@ -8,23 +8,7 @@
 
 
 
-<!-- TOC -->
-
-<!-- - [SmoothNLP](#smoothnlp)
-    - [Installation](#installation)
-        - [Python](#python)
-        - [Java Server](#java-server)
-    - [情感模型 Sentiment Analysis](#情感模型-sentiment-analysis)
-        - [情感标注数据生成](#情感标注数据生成)
-            - [半监督打标数据生成](#半监督打标数据生成)
-            - [BinarizedTree 训练数据数据处理](#binarizedtree-训练数据数据处理)
-        - [RNTN Model 模型训练](#rntn-model-模型训练)
-    - [NER Normalization 数字与金额的识别](#ner-normalization-数字与金额的识别)
-        - [Money 金额识别](#money-金额识别)
-        - [Numerical 数字识别](#numerical-数字识别)
-    - [NER 命名实体识别 - 训练过程与效果评估](https://github.com/zhangruinan/SmoothNLP/tree/master/ner) -->
-
-<!-- /TOC -->
+<!-- TOC -->autoauto- [SmoothNLP](#smoothnlp)auto    - [Installation](#installation)auto        - [Python](#python)auto        - [Java Maven-Project](#java-maven-project)auto        - [Usage 调用](#usage-调用)auto            - [Initialize 启动](#initialize-启动)auto            - [1. NER 命名实体识别](#1-ner-命名实体识别)auto            - [2. Sentiment 情感分析](#2-sentiment-情感分析)auto        - [Python](#python-1)auto        - [Java Server](#java-server)auto        - [自训练Annotator-模型配置](#自训练annotator-模型配置)auto        - [TODO](#todo)autoauto<!-- /TOC -->
 
 <!-- ----------- -->
 
@@ -118,8 +102,7 @@ java -cp corenlp-chinese-smoothnlp-0.1-with-dependencies.jar com.smoothnlp.nlp.R
 ```  -->
 
 
-### CoreNLP相关
-#### 自训练Annotator-模型配置
+### 自训练Annotator-模型配置
 在完成自训练模型后,须将对应的模型地址参数指向模型文件地址. 关于CoreNLP官方支持的Annotator相关Argument具体文档, 
 可以看[这里](https://stanfordnlp.github.io/CoreNLP/annotators.html). 
 
@@ -127,12 +110,12 @@ SmoothNLP中实现了3种模型加载方式. 下面将用情感模型(sentiment.
 
 * 通过编写*.properties* 文件并在启动Server的时候加载 (推荐)
 ```angular2
-java -jar corenlp-chinese-smoothnlp-0.1-jar-with-dependencies.jar -props nlp.properties
+java -jar smoothnlp-*-jar-with-dependencies.jar -props nlp.properties
 ```
 
 * 启动Server时通过传入额外参数实现 (不推荐)
 ```angular2
-java -jar corenlp-chinese-smoothnlp-0.1-jar-with-dependencies.jar sentiment.model edu/stanford/nlp/models/sentiment/sentiment_model_zh.ser.gz
+java -jar smoothnlp-*-jar-with-dependencies.jar sentiment.model edu/stanford/nlp/models/sentiment/sentiment_model_zh.ser.gz
 ```
 
 * 在调用Server时传入Annotator相关参数 (推荐,由于CoreNLP相关模型支持Latent加载)
