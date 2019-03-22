@@ -7,9 +7,6 @@
 ****
 
 
-
-<!-- TOC -->autoauto- [SmoothNLP](#smoothnlp)auto    - [Installation](#installation)auto        - [Python](#python)auto        - [Java Maven-Project](#java-maven-project)auto        - [Usage 调用](#usage-调用)auto            - [Initialize 启动](#initialize-启动)auto            - [1. NER 命名实体识别](#1-ner-命名实体识别)auto            - [2. Sentiment 情感分析](#2-sentiment-情感分析)auto        - [Python](#python-1)auto        - [Java Server](#java-server)auto        - [自训练Annotator-模型配置](#自训练annotator-模型配置)auto        - [TODO](#todo)autoauto<!-- /TOC -->
-
 <!-- ----------- -->
 
 ## Installation
