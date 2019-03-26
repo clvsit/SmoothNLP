@@ -1,8 +1,6 @@
 package com.smoothnlp.nlp.simple;
 
-import com.smoothnlp.nlp.simple.SimplePipeline;
-import com.smoothnlp.nlp.simple.NormalizedNER;
-import com.smoothnlp.nlp.simple.SentimentAnalyzer;
+import com.smoothnlp.nlp.simple.*;
 import com.google.gson.Gson;
 import sun.java2d.pipe.SpanShapeRenderer;
 
@@ -15,13 +13,13 @@ public class DocumentAnalyzer implements SimplePipeline{
 
     public DocumentAnalyzer(){
         this.pipelines = new ArrayList<SimplePipeline>();
+        this.pipelines.add(new SegmentPipeline());
         this.pipelines.add(new NormalizedNER());
         this.pipelines.add(new SentimentAnalyzer());
     }
 
     public String analyze(String inputText){
         ArrayList<HashMap<String,String>> pipeline_results = new ArrayList<HashMap<String, String>>();
-
 
         for (SimplePipeline pipeline : this.pipelines){
             Gson gsonobject = new Gson();
@@ -34,6 +32,6 @@ public class DocumentAnalyzer implements SimplePipeline{
 
     public static void main(String[] args){
         DocumentAnalyzer da = new DocumentAnalyzer();
-        System.out.println(da.analyze("五元钱"));
+        System.out.println(da.analyze("五元钱也不算很多"));
     }
 }

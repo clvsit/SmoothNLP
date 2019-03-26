@@ -7,11 +7,8 @@ from smoothnlp import sentence_split as ssplit
 import json
 
 class CorpurAnalyzer():
-    def __init__(self,document_analyzer:DocumentAnalyzer=None):
-        if document_analyzer is None:
-            self.document_analyzer = DocumentAnalyzer()
-        else:
-            self.document_analyzer = document_analyzer
+    def __init__(self,document_analyzer:DocumentAnalyzer):
+        self.document_analyzer = document_analyzer
 
     def analyze(self,inputCorpus:str):
         sents = ssplit(inputCorpus)
@@ -19,7 +16,7 @@ class CorpurAnalyzer():
         for i in range(len(sents_analyze_res)):
             for j in range(len(sents_analyze_res[i])):
                 sents_analyze_res[i][j]['sindex'] = i
-        # sents_analyze_res = [res for sent_res in sents_analyze_res for res in sent_res]
+        sents_analyze_res = [res for sent_res in sents_analyze_res for res in sent_res]
         return json.dumps(sents_analyze_res,ensure_ascii=False)
 
 
