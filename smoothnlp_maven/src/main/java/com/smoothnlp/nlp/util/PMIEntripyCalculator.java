@@ -58,11 +58,7 @@ public class PMIEntripyCalculator {
 
         this.occurrence.compute();
         // 1-char token
-//        Set<Map.Entry<String, TermFrequency>> unigrams = this.occurrence.getUniGram();
-//        for (Map.Entry<String, TermFrequency> entry : unigrams){
-//            TermFrequency value = entry.getValue();
-//            String token = value.getTerm();
-//        }
+        // PMI cannot be calculated for single-char token
 
         // 2-char token
         Set<Map.Entry<String, PairFrequency>> bigrams = this.occurrence.getBiGram();
