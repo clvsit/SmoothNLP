@@ -1,8 +1,11 @@
 import smoothnlp
 from smoothnlp.jvm import LazyLoadingJClass,SafeJClass
+
 ner = LazyLoadingJClass("com.smoothnlp.nlp.simple.NormalizedNER")
 sentiment = LazyLoadingJClass("com.smoothnlp.nlp.simple.SentimentAnalyzer")
+segment = LazyLoadingJClass("com.smoothnlp.nlp.simple.SegmentPipeline")
 DocumentAnalyzer = LazyLoadingJClass("com.smoothnlp.nlp.simple.DocumentAnalyzer")
+
 from smoothnlp import sentence_split as ssplit
 import json
 

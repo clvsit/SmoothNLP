@@ -51,10 +51,10 @@ public class SegmentPipeline implements SimplePipeline{
         return gsonobject.toJson(res_list);
     }
 
-//    public static void main(String[] args){
-//        SegmentPipeline sp = new SegmentPipeline();
-//        System.out.println(sp.analyze("五元钱也不算很多"));
-//    }
+    public static void main(String[] args){
+        SegmentPipeline sp = new SegmentPipeline();
+        System.out.println(sp.analyze("五块钱虽然买不到多少, 但是五块钱还是很不错的"));
+    }
 
 
 }
