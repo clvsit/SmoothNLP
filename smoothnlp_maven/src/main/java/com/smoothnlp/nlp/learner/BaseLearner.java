@@ -1,8 +1,11 @@
 package com.smoothnlp.nlp.learner;
 
 public abstract class BaseLearner {
-    public void fit(String[] sentences){};
     public void fit(String inputText){};
+    public void fit(String[] sentences){
+        for (String sent: sentences){ this.fit(sent);}
+    };
+
     public String transform(String inputText){ return ""; };
 
     public String[] transform(String[] sentences){
