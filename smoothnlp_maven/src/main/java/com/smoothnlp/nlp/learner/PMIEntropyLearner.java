@@ -42,6 +42,7 @@ public class PMIEntropyLearner extends BaseLearner {
         for (int i = 0; i< inputTokens.length; i++){
             HashMap<String,String> tokenRes = new HashMap<String, String>();
             tokenRes.put("token",inputTokens[i]);
+            tokenRes.put("tokenIndex",Integer.toString(i));
             tokenRes.put("charStart",Integer.toString(charIndex));
             charIndex+=inputTokens[i].length();
             tokenRes.put("charEnd",Integer.toString(charIndex));

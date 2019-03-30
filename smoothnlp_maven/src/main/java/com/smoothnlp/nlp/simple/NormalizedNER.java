@@ -56,7 +56,9 @@ public class NormalizedNER implements SimplePipeline {
             HashMap<String,String> emMap = new HashMap<String,String>();
             emMap.put("text",em.text());
             emMap.put("tokens",em.tokens().toString());
-            emMap.put("charOffsets",em.charOffsets().toString());
+//            emMap.put("charOffsets",em.charOffsets().toString());
+            emMap.put("charStart",Integer.toString(em.charOffsets().first));
+            emMap.put("charEnd",Integer.toString(em.charOffsets().second));
             emMap.put("entityType",em.entityType());
             if (em.coreMap().containsKey(CoreAnnotations.NormalizedNamedEntityTagAnnotation.class)){
                 emMap.put("normalizedEntityTag",em.coreMap().get(CoreAnnotations.NormalizedNamedEntityTagAnnotation.class));
