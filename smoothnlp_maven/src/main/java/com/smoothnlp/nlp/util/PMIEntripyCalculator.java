@@ -4,6 +4,7 @@ import com.hankcs.hanlp.corpus.occurrence.PairFrequency;
 import com.hankcs.hanlp.corpus.occurrence.TermFrequency;
 import com.hankcs.hanlp.corpus.occurrence.TriaFrequency;
 import com.smoothnlp.nlp.simple.*;
+import com.smoothnlp.nlp.SmoothNLP;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -26,8 +27,7 @@ public class PMIEntripyCalculator {
 
     public PMIEntripyCalculator(){
         this.occurrence = new Occurrence();
-        this.segment_pipe = new SegmentPipeline();
-
+        this.segment_pipe = SmoothNLP.segment_pipeline;
         this.pmi_scores = new HashMap<String,Double>();
         this.le_scores = new HashMap<String,Double>();
         this.re_scores = new HashMap<String,Double>();

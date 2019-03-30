@@ -21,10 +21,23 @@ public class NormalizedNER implements SimplePipeline {
 
     public static InputStream CHINESE_DEFAULT_PROPS_INPUTSTREAM =  NormalizedNER.class.getClass().getResourceAsStream("/StanfordCoreNLP-chinese.properties");
 
-    public final Properties props;
-    public final StanfordCoreNLP pipeline;
+    public Properties props;
+    public StanfordCoreNLP pipeline;
 
     public NormalizedNER(){
+        init();
+        this.pipeline = new StanfordCoreNLP(props);
+    }
+
+    public NormalizedNER(boolean tokenizeBySpacy){
+        init();
+        if (tokenizeBySpacy=false){
+            props.setProperty("tokenize.whitespace","true");
+        }
+        this.pipeline = new StanfordCoreNLP(props);
+    }
+
+    protected void init(){
         this.props = new Properties();
         try {
             props.load(CHINESE_DEFAULT_PROPS_INPUTSTREAM);
@@ -32,7 +45,6 @@ public class NormalizedNER implements SimplePipeline {
             e.printStackTrace();
         }
         props.setProperty("annotators", "tokenize,ssplit,pos,lemma,ner");
-        this.pipeline = new StanfordCoreNLP(props);
     }
 
     public String getNormalizedNER(String inputText){
