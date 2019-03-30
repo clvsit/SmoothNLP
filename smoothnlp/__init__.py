@@ -17,3 +17,4 @@ import smoothnlp.jvm as jvm
 from smoothnlp.jvm import initJVMConnection
 import smoothnlp.simple as simple
 import smoothnlp.func as func
+import smoothnlp.learner as learner
