@@ -97,15 +97,22 @@ public class PMIEntripyCalculator {
         return coveredTokens.toArray(new String[coveredTokens.size()]);
     }
 
+    public HashMap<String,Double> getTokenScores(String token){
+        HashMap<String,Double> token2scores = new HashMap<String,Double>();
+        if (this.pmi_scores.containsKey(token)){
+            token2scores.put("pmi",this.pmi_scores.get(token));
+            token2scores.put("le",this.le_scores.get(token));
+            token2scores.put("re",this.re_scores.get(token));
+            token2scores.put("phrase_score",this.normalized_scores.get(token));
+        }
+        return token2scores;
+    }
+
     public HashMap<String,HashMap<String,Double>> getTokenScores4Sentence(String inputText){
         String[] coveredTokens = getCoveredTokens(inputText);
         HashMap<String,HashMap<String,Double>> tokens2scores = new HashMap<String,HashMap<String,Double>>();
         for (String token:coveredTokens){
-            HashMap<String,Double> tokenscore = new HashMap<String, Double>();
-            tokenscore.put("pmi",this.pmi_scores.get(token));
-            tokenscore.put("le",this.le_scores.get(token));
-            tokenscore.put("re",this.re_scores.get(token));
-            tokenscore.put("phrase_score",this.normalized_scores.get(token));
+            HashMap<String,Double> tokenscore = this.getTokenScores(token);
             tokens2scores.put(token,tokenscore);
         }
         return tokens2scores;

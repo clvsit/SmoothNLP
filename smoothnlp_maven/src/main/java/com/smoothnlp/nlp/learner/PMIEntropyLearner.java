@@ -11,52 +11,42 @@ import com.google.gson.GsonBuilder;
 public class PMIEntropyLearner extends BaseLearner {
 
     private PMIEntripyCalculator pmicalc;
-    private boolean computed;
+
+    // 2 be developed
+//    private HashMap<String,Double> pmi_scores;
+//    private HashMap<String,Double> le_scores;
+//    private HashMap<String,Double> re_scores;
+//    private HashMap<String,Double> normalized_scores;  // normalized scores originally calculated in HanLP Package
+
 
     public PMIEntropyLearner(){
+        super();
         this.pmicalc = new PMIEntripyCalculator();
-        this.computed = false;
+        this.fitted = false;
     }
 
     @Override
     public void fit(String inputText){
         this.pmicalc.addSentence(inputText);
-        this.fitted = true;
-        this.computed = false;
-    }
-
-    protected void computePMIE(){
-        this.pmicalc.compute();
-        this.computed = true;
+        this.fitted = false;
     }
 
     @Override
-    public String transform(String inputText){
-        if (!this.computed){
-            computePMIE();
-        }
-        HashMap<String, HashMap<String,Double>> tokens2scores = this.pmicalc.getTokenScores4Sentence(inputText);
-        String[] inputTokens = SmoothNLP.segment_pipeline.segmentText(inputText);
-        int charIndex = 0;
-        ArrayList<HashMap<String,String>> resList = new ArrayList<HashMap<String, String>>();
-        for (int i = 0; i< inputTokens.length; i++){
-            HashMap<String,String> tokenRes = new HashMap<String, String>();
-            tokenRes.put("token",inputTokens[i]);
-            tokenRes.put("tokenIndex",Integer.toString(i));
-            tokenRes.put("charStart",Integer.toString(charIndex));
-            charIndex+=inputTokens[i].length();
-            tokenRes.put("charEnd",Integer.toString(charIndex));
-            if (tokens2scores.containsKey(inputTokens[i])){
-                HashMap<String,Double> token2score = tokens2scores.get(inputTokens[i]);
-                for (String score_name: token2score.keySet()){
-                    tokenRes.put(score_name,Double.toString(token2score.get(score_name)));
-                }
-            }
-            resList.add(tokenRes);
-        }
-        Gson gsonobject = new Gson();
-        return gsonobject.toJson(resList);
+    protected void compute(){
+        this.pmicalc.compute();
+        this.fitted = true;
     }
+
+    @Override
+    public HashMap<String,String> encodeToken(String token){
+        HashMap<String,String> tokenRes = new HashMap<String, String>();
+        HashMap<String,Double> token2scores = this.pmicalc.getTokenScores(token);
+        for (String t: token2scores.keySet()){
+            tokenRes.put(t,Double.toString(token2scores.get(t)));
+        }
+        return tokenRes;
+    }
+
 
     public static void main(String[] args){
         String sampletext1 = "五块钱虽然买不到多少";

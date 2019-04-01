@@ -6,6 +6,8 @@ SmoothNLP.egg-info/dependency_links.txt
 SmoothNLP.egg-info/requires.txt
 SmoothNLP.egg-info/top_level.txt
 smoothnlp/__init__.py
+smoothnlp/func.py
+smoothnlp/learner.py
 smoothnlp/pipeline.py
 smoothnlp/treebanks.py
 smoothnlp/jvm/__init__.py

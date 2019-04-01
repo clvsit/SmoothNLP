@@ -24,43 +24,29 @@ public class TextRankLeaner extends BaseLearner {
     public static int max_iter = 200;
     final static float min_diff = 0.001f;
 
-    private boolean computed;
     private Map<String, Set<String>> words;
     private Map<String, Float> score;
 
     public TextRankLeaner(){
-        this.computed = false;
+        super();
         words = new TreeMap<String, Set<String>>();
         score = new HashMap<String, Float>();
     }
 
+    @Override
     public void fit(String inputText){
         String[] inputTokens = SmoothNLP.segment_pipeline.segmentText(inputText);
         this.buildTreeMap(inputTokens);
-        this.computed = false;
+        this.fitted = false;
     }
 
-    public String transform(String inputText){
-        if (!computed){
-            this.computeTextRankScore();
+    @Override
+    public HashMap<String,String> encodeToken(String token){
+        HashMap<String,String> tokenRes =new HashMap<String,String>();
+        if (this.score.containsKey(token)){
+            tokenRes.put("textRankScore",Float.toString(score.get(token)));
         }
-        String[] inputTokens = SmoothNLP.segment_pipeline.segmentText(inputText);
-        int charIndex = 0;
-        ArrayList<HashMap<String,String>> resList = new ArrayList<HashMap<String, String>>();
-        for (int i = 0; i< inputTokens.length; i++){
-            HashMap<String,String> tokenRes = new HashMap<String, String>();
-            tokenRes.put("token",inputTokens[i]);
-            tokenRes.put("tokenIndex",Integer.toString(i));
-            tokenRes.put("charStart",Integer.toString(charIndex));
-            charIndex+=inputTokens[i].length();
-            tokenRes.put("charEnd",Integer.toString(charIndex));
-            if (score.containsKey(inputTokens[i])){
-                tokenRes.put("textRankScore",Float.toString(score.get(inputTokens[i])));
-            }
-            resList.add(tokenRes);
-        }
-        Gson gsonobject = new Gson();
-        return gsonobject.toJson(resList);
+        return tokenRes;
     }
 
     protected void buildTreeMap(String[] tokens){
@@ -90,7 +76,8 @@ public class TextRankLeaner extends BaseLearner {
         }
     }
 
-    public void computeTextRankScore()
+    @Override
+    public void compute()
     {
         //依据TF来设置初值
         for (Map.Entry<String, Set<String>> entry : words.entrySet())
