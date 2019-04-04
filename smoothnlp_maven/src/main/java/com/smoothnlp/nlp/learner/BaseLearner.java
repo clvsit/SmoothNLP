@@ -18,6 +18,7 @@ public abstract class BaseLearner {
     }
 
     public void fit(String inputText){};
+
     public void fit(String[] sentences){
         for (String sent: sentences){ this.fit(sent);}
     };

@@ -50,6 +50,7 @@ public class NormalizedNER implements SimplePipeline {
     public String getNormalizedNER(String inputText){
         CoreDocument document = new CoreDocument(inputText);
         this.pipeline.annotate(document);
+//        document.sentences().get(0).dependencyParse().;
         ArrayList<HashMap<String,String>> nerRes = new ArrayList<HashMap<String,String>>();
         Gson gsonobject = new Gson();
         for (CoreEntityMention em : document.entityMentions()){
