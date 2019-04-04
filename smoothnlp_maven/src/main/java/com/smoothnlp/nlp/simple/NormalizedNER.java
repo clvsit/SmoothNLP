@@ -1,5 +1,7 @@
 package com.smoothnlp.nlp.simple;
 
+import com.smoothnlp.nlp.SmoothNLP;
+
 import java.io.IOException;
 import java.util.*;
 import java.io.InputStream;
@@ -24,17 +26,25 @@ public class NormalizedNER implements SimplePipeline {
     public Properties props;
     public StanfordCoreNLP pipeline;
 
+    private boolean tokenizeBySpace;
+
     public NormalizedNER(){
         init();
         this.pipeline = new StanfordCoreNLP(props);
     }
 
-    public NormalizedNER(boolean tokenizeBySpacy){
+    public NormalizedNER(boolean tokenizeBySpace){
         init();
-        if (tokenizeBySpacy=false){
+        this.tokenizeBySpace = tokenizeBySpace;
+        if (this.tokenizeBySpace=false){
             props.setProperty("tokenize.whitespace","true");
         }
         this.pipeline = new StanfordCoreNLP(props);
+    }
+
+    public NormalizedNER(boolean tokenizeBySpace, StanfordCoreNLP pipeline){
+        this.tokenizeBySpace = tokenizeBySpace;
+        this.pipeline = pipeline;
     }
 
     protected void init(){
@@ -47,12 +57,15 @@ public class NormalizedNER implements SimplePipeline {
         props.setProperty("annotators", "tokenize,ssplit,pos,lemma,ner");
     }
 
-    public String getNormalizedNER(String inputText){
+    public ArrayList<HashMap<String,String>> getNormalizedNER(String inputText){
+        if (this.tokenizeBySpace==true){
+            inputText = SmoothNLP.segment_pipeline.segmentTextwithWhiteSpace(inputText);
+        }
         CoreDocument document = new CoreDocument(inputText);
         this.pipeline.annotate(document);
 //        document.sentences().get(0).dependencyParse().;
         ArrayList<HashMap<String,String>> nerRes = new ArrayList<HashMap<String,String>>();
-        Gson gsonobject = new Gson();
+
         for (CoreEntityMention em : document.entityMentions()){
             HashMap<String,String> emMap = new HashMap<String,String>();
             emMap.put("text",em.text());
@@ -66,8 +79,7 @@ public class NormalizedNER implements SimplePipeline {
             }
             nerRes.add(emMap);
         }
-        String jsonStr = gsonobject.toJson(nerRes);
-        return jsonStr;
+        return nerRes;
     }
 
 //    public String getNormalizedNERinStr(String inputText){
@@ -78,7 +90,13 @@ public class NormalizedNER implements SimplePipeline {
 //    }
 
     public String analyze(String inputText){
-        return getNormalizedNER(inputText);
+        Gson gsonobject = new Gson();
+        return gsonobject.toJson(getNormalizedNER(inputText));
+    }
+
+    public static void main(String[] args){
+        NormalizedNER nner = new NormalizedNER(true);
+        System.out.println(nner.analyze("我买了五斤苹果, 总共10元钱"));
     }
 
 }

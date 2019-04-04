@@ -13,6 +13,7 @@ import com.smoothnlp.nlp.SmoothNLP;
 import com.google.gson.Gson;
 
 import com.hankcs.hanlp.model.crf.CRFSegmenter;
+import org.apache.commons.lang3.StringUtils;
 
 public class SegmentPipeline implements SimplePipeline{
 
@@ -40,6 +41,10 @@ public class SegmentPipeline implements SimplePipeline{
         }
         // this should never be hit
         return new String[1];
+    }
+
+    public String segmentTextwithWhiteSpace(String inputText){
+        return StringUtils.join(" ",this.segmentText(inputText));
     }
 
     public String analyze(String textInput){
