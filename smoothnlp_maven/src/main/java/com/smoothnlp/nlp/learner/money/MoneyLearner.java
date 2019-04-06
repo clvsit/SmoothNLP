@@ -60,6 +60,7 @@ public class MoneyLearner extends BaseLearner {
         ArrayList<HashMap<String,String>> moneyResList = new ArrayList<HashMap<String,String>>();
         for (HashMap<String,String> nerRes : nerResList){
             if (nerRes.get("entityType")=="MONEY"){
+                nerRes.put("moneyNormalizedAmount",nerRes.get("normalizedEntityTag").replace("¥",""));
                 moneyResList.add(nerRes);
             }
         }
