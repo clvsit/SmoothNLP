@@ -44,10 +44,10 @@ public class SegmentPipeline implements SimplePipeline{
     }
 
     public String segmentTextwithWhiteSpace(String inputText){
-        return StringUtils.join(" ",this.segmentText(inputText));
+        return StringUtils.join(this.segmentText(inputText)," ");
     }
 
-    public String analyze(String textInput){
+    public ArrayList<HashMap<String,String>> analyzeRaw(String textInput){
         int start = 0;
         int tokenIndex = 0;
         String[] segmented_res = segmentText(textInput);
@@ -56,20 +56,26 @@ public class SegmentPipeline implements SimplePipeline{
             int end = start + word.length();
             HashMap<String,String> word_res = new HashMap<String,String>();
             word_res.put("charStart",String.valueOf(start));
-            word_res.put("chatEnd",String.valueOf(end));
+            word_res.put("charEnd",String.valueOf(end));
             word_res.put("tokenIndex", Integer.toString(tokenIndex));
             tokenIndex+=1;
             word_res.put("token",word);
             start += word.length();
             res_list.add(word_res);
         }
+        return res_list;
+    }
+
+    public String analyze(String textInput){
+        ArrayList<HashMap<String,String>> res_list = this.analyzeRaw(textInput);
         Gson gsonobject = new Gson();
         return gsonobject.toJson(res_list);
     }
 
     public static void main(String[] args) throws IOException {
         SegmentPipeline sp = new SegmentPipeline();
-        System.out.println(sp.analyze("五块钱虽然买不到多少, 但是五块钱还是很不错的"));
+        System.out.println(sp.segmentTextwithWhiteSpace("我买了五斤苹果, 总共10元钱"));
+        System.out.println(sp.analyze("我买了五斤苹果, 总共10元钱"));
 //        String modelPath = "pku199801/cws.txt.bin";
 //        CRFSegmenter s = new CRFSegmenter(modelPath);
 //        List<String> wordList = s.segment("商品和服务");

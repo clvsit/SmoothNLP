@@ -36,7 +36,7 @@ public class NormalizedNER implements SimplePipeline {
     public NormalizedNER(boolean tokenizeBySpace){
         init();
         this.tokenizeBySpace = tokenizeBySpace;
-        if (this.tokenizeBySpace=false){
+        if (this.tokenizeBySpace==true){
             props.setProperty("tokenize.whitespace","true");
         }
         this.pipeline = new StanfordCoreNLP(props);
@@ -60,9 +60,11 @@ public class NormalizedNER implements SimplePipeline {
     public ArrayList<HashMap<String,String>> getNormalizedNER(String inputText){
         if (this.tokenizeBySpace==true){
             inputText = SmoothNLP.segment_pipeline.segmentTextwithWhiteSpace(inputText);
+
         }
         CoreDocument document = new CoreDocument(inputText);
         this.pipeline.annotate(document);
+
 //        document.sentences().get(0).dependencyParse().;
         ArrayList<HashMap<String,String>> nerRes = new ArrayList<HashMap<String,String>>();
 
@@ -95,8 +97,10 @@ public class NormalizedNER implements SimplePipeline {
     }
 
     public static void main(String[] args){
-        NormalizedNER nner = new NormalizedNER(true);
-        System.out.println(nner.analyze("我买了五斤苹果, 总共10元钱"));
+        NormalizedNER nner2 = new NormalizedNER(false);
+        System.out.println(nner2.analyze("我买了五斤苹果, 总共10元"));
+//        NormalizedNER nner = new NormalizedNER(true);
+//        System.out.println(nner.analyze("我买了五斤苹果, 总共10元"));
     }
 
 }
