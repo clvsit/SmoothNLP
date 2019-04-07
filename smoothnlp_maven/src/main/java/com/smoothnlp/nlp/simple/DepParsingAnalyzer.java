@@ -84,8 +84,11 @@ public class DepParsingAnalyzer implements SimplePipeline {
             int targetCharStart = Integer.valueOf(dpRes.get("targetCharStart"));
             int targetCharEnd = Integer.valueOf(dpRes.get("targetCharEnd"));
 
-            boolean target_condition = (targetCharStart >= charStart & targetCharEnd <= charEnd);
-            boolean source_condition = (sourceCharStart >= charStart & sourceCharEnd <= charEnd);
+            boolean target_condition = (targetCharStart >= charStart & targetCharEnd-1 <= charEnd);
+            boolean source_condition = (sourceCharStart >= charStart & sourceCharEnd-1 <= charEnd);
+
+            System.out.println(source_condition);
+            System.out.println(target_condition);
 
             // 过滤区间间的dependencies
             if (target_condition & source_condition){ continue; }
