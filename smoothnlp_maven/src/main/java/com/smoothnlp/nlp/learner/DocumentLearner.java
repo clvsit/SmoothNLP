@@ -74,14 +74,14 @@ public class DocumentLearner implements BaseLearner {
         }
     }
 
-    public static void main(String[] args){
-        String sampletext1 = "今天天气不错,天气这么好, 真应该出去玩耍呀";
-        String sampletext2 = "今天天气不错, 但是如果不出去玩, 在家里写代码也会很开心";
-        DocumentLearner pleaner = new DocumentLearner();
-        pleaner.fit(sampletext1);
-        pleaner.fit(sampletext2);
-        System.out.println(pleaner.transform(sampletext1));
-    }
+//    public static void main(String[] args){
+//        String sampletext1 = "今天天气不错,天气这么好, 真应该出去玩耍呀";
+//        String sampletext2 = "今天天气不错, 但是如果不出去玩, 在家里写代码也会很开心";
+//        DocumentLearner pleaner = new DocumentLearner();
+//        pleaner.fit(sampletext1);
+//        pleaner.fit(sampletext2);
+//        System.out.println(pleaner.transform(sampletext1));
+//    }
 
 }
 
