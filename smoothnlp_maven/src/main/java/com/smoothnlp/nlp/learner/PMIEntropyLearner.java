@@ -1,14 +1,10 @@
 package com.smoothnlp.nlp.learner;
 
-import com.smoothnlp.nlp.SmoothNLP;
 import com.smoothnlp.nlp.util.PMIEntripyCalculator;
 
 import java.util.HashMap;
-import java.util.ArrayList;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-public class PMIEntropyLearner extends BaseLearner {
+public class PMIEntropyLearner extends TokenLearner {
 
     private PMIEntripyCalculator pmicalc;
 

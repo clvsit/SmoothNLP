@@ -1,14 +1,10 @@
 package com.smoothnlp.nlp.learner.money;
-import com.smoothnlp.nlp.SmoothNLP;
 import com.smoothnlp.nlp.learner.BaseLearner;
+import com.smoothnlp.nlp.learner.TokenLearner;
 import com.smoothnlp.nlp.simple.NormalizedNER;
 import com.smoothnlp.nlp.simple.DepParsingAnalyzer;
-import edu.stanford.nlp.pipeline.CoreDocument;
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
-import edu.stanford.nlp.semgraph.SemanticGraph;
 import com.google.gson.Gson;
-
-import com.hankcs.hanlp.seg.Viterbi.ViterbiSegment;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +12,7 @@ import java.util.Properties;
 import java.util.HashMap;
 import java.util.ArrayList;
 
-public class MoneyLearner extends BaseLearner {
+public class MoneyLearner implements BaseLearner {
 
     public static InputStream CHINESE_DEFAULT_PROPS_INPUTSTREAM =  NormalizedNER.class.getClass().getResourceAsStream("/StanfordCoreNLP-chinese.properties");
 
@@ -85,19 +81,17 @@ public class MoneyLearner extends BaseLearner {
 
             }else if(moneyNerDpRelations.size()==1){;
                 HashMap<String,String> moneyDPrelation = moneyNerDpRelations.get(0);
-
                 moneyNerRes.putAll(moneyDPrelation);
-
-//                moneyNerRes.put("relationship",moneyDPrelation.get("relationship"));
-//                moneyNerRes.put("sourceToken",moneyDPrelation.get("sourceToken"));
-
             }
             finalMoneyNerDP.add(moneyNerRes);
         }
         return finalMoneyNerDP;
     }
 
-    @Override
+    public void fit(String inputText){};
+
+    public void fit(String[] inputCorpus){};
+
     public String transform(String inputText){
         ArrayList<HashMap<String,String>> moneyResList = this.getMoneyDPRelations(inputText);
         Gson gsonobject = new Gson();
@@ -109,7 +103,6 @@ public class MoneyLearner extends BaseLearner {
 //        String sampleText = "我买了五斤苹果, 总共10元钱";
 //        System.out.println(ml.getMoneyDPRelations(sampleText).get(0).size());
 //        ml.transform("我买了五斤苹果, 总共10元钱");
-
         System.out.println(ml.transform("我买了五斤苹果, 总共10元; 之后我又买了50元的梨子"));
     }
 

@@ -1,8 +1,5 @@
 package com.smoothnlp.nlp.learner;
-import com.google.gson.Gson;
 import com.smoothnlp.nlp.SmoothNLP;
-import com.hankcs.hanlp.seg.common.Term;
-import com.smoothnlp.nlp.learner.BaseLearner;
 
 import java.util.*;
 
@@ -12,7 +9,7 @@ import java.util.*;
  * 来适应BaseLearner中的fit和transform两步
  */
 
-public class TextRankLeaner extends BaseLearner {
+public class TextRankLeaner extends TokenLearner {
 
     /**
      * 阻尼系数（ＤａｍｐｉｎｇＦａｃｔｏｒ），一般取值为0.85
