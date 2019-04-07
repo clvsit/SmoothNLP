@@ -74,6 +74,7 @@ public class MoneyLearner implements BaseLearner {
             int moneyCharEnd = Integer.valueOf(moneyNerRes.get("charEnd"));
 
             ArrayList<HashMap<String,String>> moneyNerDpRelations = DepParsingAnalyzer.getDependenciesByCharRange(dpRelations,moneyCharStart,moneyCharEnd,true);
+
             if (moneyNerDpRelations.size()>1){
                 System.out.println("More than 1 relation");
                 Gson gson = new Gson();
@@ -81,7 +82,13 @@ public class MoneyLearner implements BaseLearner {
 
             }else if(moneyNerDpRelations.size()==1){;
                 HashMap<String,String> moneyDPrelation = moneyNerDpRelations.get(0);
-                moneyNerRes.putAll(moneyDPrelation);
+
+                moneyNerRes.put("sourceToken",moneyDPrelation.get("sourceToken"));
+                moneyNerRes.put("relationship",moneyDPrelation.get("relationship"));
+//                moneyNerRes.putAll(moneyDPrelation);
+            }else{
+                moneyNerRes.put("sourceToken","unknown");
+                moneyNerRes.put("relationship","unknown");
             }
             finalMoneyNerDP.add(moneyNerRes);
         }
@@ -103,7 +110,7 @@ public class MoneyLearner implements BaseLearner {
 //        String sampleText = "我买了五斤苹果, 总共10元钱";
 //        System.out.println(ml.getMoneyDPRelations(sampleText).get(0).size());
 //        ml.transform("我买了五斤苹果, 总共10元钱");
-        System.out.println(ml.transform("我买了五斤苹果, 总共10元; 之后我又买了50元的梨子"));
+        System.out.println(ml.transform("您的信用卡上月总共支出2350.6元"));
     }
 
 }
