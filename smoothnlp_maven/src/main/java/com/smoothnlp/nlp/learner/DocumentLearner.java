@@ -3,7 +3,7 @@ package com.smoothnlp.nlp.learner;
 import java.util.HashMap;
 import com.google.gson.Gson;
 import com.smoothnlp.nlp.learner.money.MoneyLearner;
-
+import java.util.ArrayList;
 
 public class DocumentLearner implements BaseLearner {
 
@@ -27,11 +27,25 @@ public class DocumentLearner implements BaseLearner {
         }
     }
 
-    public String transform(String inputText){
+    public HashMap<String,String> transform_raw(String inputText){
         HashMap<String,String> documentRes = new HashMap<String, String>();
         for (String learnerName : subLearners.keySet()){
             String learnerResItem = subLearners.get(learnerName).transform(inputText);
             documentRes.put(learnerName,learnerResItem);
+        }
+        return documentRes;
+    }
+
+    public String transform(String inputText){
+        HashMap<String,String> documentRes = this.transform_raw(inputText);
+        Gson gson = new Gson();
+        return gson.toJson(documentRes);
+    }
+
+    public String transform(String[] inputCorpus){
+        ArrayList<HashMap<String,String>> documentRes = new ArrayList<HashMap<String, String>>();
+        for (String inputText:inputCorpus){
+            documentRes.add(this.transform_raw(inputText));
         }
         Gson gson = new Gson();
         return gson.toJson(documentRes);

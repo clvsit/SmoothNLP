@@ -56,8 +56,8 @@ public class MoneyLearner implements BaseLearner {
         ArrayList<HashMap<String,String>> moneyResList = new ArrayList<HashMap<String,String>>();
         for (HashMap<String,String> nerRes : nerResList){
             if (nerRes.get("entityType")=="MONEY"){
-                nerRes.get("normalizedEntityTag").
-                nerRes.put("moneyNormalizedAmount",nerRes.get("normalizedEntityTag").replace("¥",""));
+                nerRes.put("moneyNormalizedAmount",nerRes.get("normalizedEntityTag").substring(1));
+//                nerRes.put("moneyNormalizedAmount",nerRes.get("normalizedEntityTag").replace("¥",""));
                 moneyResList.add(nerRes);
             }
         }
@@ -86,7 +86,7 @@ public class MoneyLearner implements BaseLearner {
 
                 moneyNerRes.put("sourceToken",moneyDPrelation.get("sourceToken"));
                 moneyNerRes.put("relationship",moneyDPrelation.get("relationship"));
-//                moneyNerRes.putAll(moneyDPrelation);
+                moneyNerRes.putAll(moneyDPrelation);
             }else{
                 moneyNerRes.put("sourceToken","unknown");
                 moneyNerRes.put("relationship","unknown");
@@ -106,12 +106,21 @@ public class MoneyLearner implements BaseLearner {
         return gsonobject.toJson(moneyResList);
     }
 
+    public String transform(String[] inputCorpus){
+        ArrayList<HashMap<String,String>> moneyResList = new ArrayList<HashMap<String, String>>();
+        for (String inputText: inputCorpus){
+            moneyResList.addAll(this.getMoneyDPRelations(inputText));
+        }
+        Gson  gsonobject = new Gson();
+        return gsonobject.toJson(moneyResList);
+    }
+
     public static void main(String[] args){
         MoneyLearner ml = new MoneyLearner(false);
 //        String sampleText = "我买了五斤苹果, 总共10元钱";
 //        System.out.println(ml.getMoneyDPRelations(sampleText).get(0).size());
 //        ml.transform("我买了五斤苹果, 总共10元钱");
-        System.out.println(ml.transform("您的信用卡上月总共支出2350.6元"));
+        System.out.println(ml.transform("您上个月借了300元钱"));
     }
 
 }
