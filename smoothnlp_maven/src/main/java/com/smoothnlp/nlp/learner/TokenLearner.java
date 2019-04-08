@@ -5,7 +5,7 @@ import com.smoothnlp.nlp.SmoothNLP;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public abstract class TokenLearner{
+public abstract class TokenLearner implements BaseLearner{
 
     protected boolean fitted;
 
@@ -51,11 +51,13 @@ public abstract class TokenLearner{
         return gsonobject.toJson(resList);
     }
 
-    public String[] transform(String[] sentences){
+    public String transform(String[] sentences){
         String[] transformed_res = new String[sentences.length];
         for (int i=0;i<sentences.length;i++){
             transformed_res[i] = transform(sentences[0]);
         }
-        return transformed_res;
+        Gson gsonobject = new Gson();
+        return gsonobject.toJson(transformed_res);
+//        return transformed_res;
     }
 }
