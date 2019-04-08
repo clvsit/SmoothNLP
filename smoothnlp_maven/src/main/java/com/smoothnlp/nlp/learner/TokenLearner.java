@@ -5,7 +5,7 @@ import com.smoothnlp.nlp.SmoothNLP;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public abstract class TokenLearner implements BaseLearner{
+public abstract class TokenLearner{
 
     protected boolean fitted;
 
