@@ -106,6 +106,15 @@ public class MoneyLearner implements BaseLearner {
         return gsonobject.toJson(moneyResList);
     }
 
+    public String transform(String[] inputCorpus){
+        ArrayList<HashMap<String,String>> moneyResList = new ArrayList<HashMap<String, String>>();
+        for (String inputText: inputCorpus){
+            moneyResList.addAll(this.getMoneyDPRelations(inputText));
+        }
+        Gson  gsonobject = new Gson();
+        return gsonobject.toJson(moneyResList);
+    }
+
     public static void main(String[] args){
         MoneyLearner ml = new MoneyLearner(false);
 //        String sampleText = "我买了五斤苹果, 总共10元钱";
