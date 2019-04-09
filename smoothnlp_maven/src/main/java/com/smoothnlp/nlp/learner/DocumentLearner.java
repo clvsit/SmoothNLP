@@ -51,7 +51,7 @@ public class DocumentLearner implements BaseLearner {
         return gson.toJson(documentRes);
     }
 
-    public class DocumentTokenLearner extends TokenLearner {
+    public static class DocumentTokenLearner extends TokenLearner {
 
         private TokenLearner[] tokenSubLearners;
 
