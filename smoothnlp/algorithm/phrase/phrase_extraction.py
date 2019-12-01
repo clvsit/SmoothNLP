@@ -60,7 +60,9 @@ def extract_phrase(corpus,
     new_words = [item[0] for item in sorted(word_info_scores.items(),key=lambda item:item[1][-1],reverse = True)]
     if top_k > 1:              #输出前k个词
         return new_words[:top_k]
-    elif top_k < 1:            #输出前k%的词
+    elif top_k == 1:
+        return new_words
+    else:            #输出前k%的词
         return new_words[:int(top_k*len(new_words))]
 
 
